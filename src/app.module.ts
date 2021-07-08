@@ -6,10 +6,13 @@ import { Model } from 'mongoose';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { AdminUser } from './mongoose-schemas/entities/adminUser.entity';
+import { AdminUser } from './mongoose-schemas/schemas/adminUser.schema';
 import { MongooseSchemasModule } from './mongoose-schemas/mongoose-schemas.module';
 import { AdminModule } from '@adminjs/nestjs';
-import { User } from './mongoose-schemas/entities/user.entity';
+import { User } from './mongoose-schemas/schemas/user.schema';
+import { Log } from './mongoose-schemas/schemas/log.schema';
+import { Mapper } from './mongoose-schemas/schemas/mapper.schema';
+import { ImporterConfig } from './mongoose-schemas/schemas/importerConfig.schema';
 
 AdminJS.registerAdapter({ Database, Resource });
 
@@ -17,14 +20,64 @@ AdminJS.registerAdapter({ Database, Resource });
   imports: [
     MongooseModule.forRoot(
       'mongodb+srv://root:root@cluster0.l8ufw.mongodb.net/myFirstDatabase',
+      {
+        connectionName: 'test',
+      },
+    ),
+    MongooseModule.forRoot(
+      'mongodb+srv://avi:adam2012@cluster0.fqsye.mongodb.net/cz',
+      {
+        connectionName: 'prod',
+      },
     ),
     AdminModule.createAdminAsync({
       imports: [MongooseSchemasModule],
-      inject: [getModelToken('User'), getModelToken('Admin')],
-      useFactory: (userModel: Model<User>, adminModel: Model<AdminUser>) => ({
+      inject: [
+        getModelToken(User.name),
+        getModelToken(AdminUser.name),
+        getModelToken(Log.name),
+        getModelToken(Mapper.name),
+        getModelToken(ImporterConfig.name),
+      ],
+      useFactory: (
+        userModel: Model<User>,
+        adminModel: Model<AdminUser>,
+        logModel: Model<Log>,
+        mapperModel: Model<Mapper>,
+        importerConfigModel: Model<ImporterConfig>,
+      ) => ({
         adminJsOptions: {
           rootPath: '/admin',
-          resources: [{ resource: userModel }, { resource: adminModel }],
+          resources: [
+            { resource: userModel },
+            {
+              resource: adminModel,
+              options: { properties: { breed: { type: 'mixed' } } },
+            },
+            { resource: logModel },
+            {
+              resource: mapperModel,
+              options: {
+                properties: {
+                  dataMapper: { type: 'mixed' },
+                  'dataMapper.name': { type: 'string' },
+                  'dataMapper.AccountExternalId': { type: 'string' },
+                  'dataMapper.SupernovaId': { type: 'string' },
+                  'dataMapper.cf_Plan': { type: 'string' },
+                  'dataMapper.cf_OfHotelsInHc': { type: 'string' },
+                },
+              },
+            },
+            {
+              resource: importerConfigModel,
+              options: {
+                properties: {
+                  config: { type: 'mixed' },
+                  'config.email': { type: 'richtext' },
+                },
+              },
+            },
+          ],
           branding: {
             logo:
               'https://churnzero.net/wp-content/uploads/2017/08/ChurnZero-Logo-Dark-on-Light-Stacked-LARGE.png',

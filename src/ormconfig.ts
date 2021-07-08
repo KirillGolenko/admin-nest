@@ -1,5 +1,4 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm/dist/interfaces/typeorm-options.interface';
-import { User } from './mongoose-schemas/entities/user.entity';
 
 const ormconfig: TypeOrmModuleOptions = {
   type: 'postgres',
@@ -8,7 +7,7 @@ const ormconfig: TypeOrmModuleOptions = {
   username: 'postgres',
   password: 'lolilop9090',
   database: 'postgres',
-  entities: [User],
+  entities: [],
   synchronize: true,
 };
 
