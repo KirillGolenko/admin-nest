@@ -1,19 +1,21 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Date, Document } from 'mongoose';
 
-@Entity()
-export class User extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  public id: number;
+export type UserDocument = User & Document;
 
-  @Column({ unique: true })
-  public user_name: string;
+@Schema()
+export class User {
+  @Prop()
+  name: string;
 
-  @Column()
-  public first_name: string;
+  @Prop()
+  email: string;
 
-  @Column()
-  public last_name: string;
+  @Prop({ type: Date })
+  createdAt: Date;
 
-  @Column()
-  public password: string;
+  @Prop({ type: Date })
+  updatedAt: Date;
 }
+
+export const UserSchema = SchemaFactory.createForClass(User);

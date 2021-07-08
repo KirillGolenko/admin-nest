@@ -6,5 +6,6 @@ import { AdminUserSchema } from 'src/users/entities/adminUser.entity';
   imports: [
     MongooseModule.forFeature([{ name: 'Admin', schema: AdminUserSchema }]),
   ],
+  exports: [MongooseModule],
 })
-export class MongooseSchemasModule {}
+export class AdminsSchemasModule {}
