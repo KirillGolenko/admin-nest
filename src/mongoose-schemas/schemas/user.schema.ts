@@ -9,6 +9,9 @@ export class User extends Document {
   @Prop()
   email: string;
 
+  @Prop({ type: Object })
+  content: Record<string, string>;
+
   @Prop({ type: Date })
   createdAt: Date;
 

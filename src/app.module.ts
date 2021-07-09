@@ -13,6 +13,7 @@ import { User } from './mongoose-schemas/schemas/user.schema';
 import { Log } from './mongoose-schemas/schemas/log.schema';
 import { Mapper } from './mongoose-schemas/schemas/mapper.schema';
 import { ImporterConfig } from './mongoose-schemas/schemas/importerConfig.schema';
+
 require('dotenv').config();
 
 AdminJS.registerAdapter({ Database, Resource });
@@ -43,8 +44,32 @@ AdminJS.registerAdapter({ Database, Resource });
       ) => ({
         adminJsOptions: {
           rootPath: '/admin',
+          dashboard: {
+            handler: async () => {
+              return { some: 'output' };
+            },
+            component: AdminJS.bundle('./components/my-dashboard-component'),
+          },
           resources: [
-            { resource: userModel },
+            {
+              resource: userModel,
+              options: {
+                actions: {
+                  new: { icon: 'Add' },
+                  edit: {
+                    actionType: 'record',
+                    icon: 'View',
+                    isVisible: true,
+                    component: AdminJS.bundle('./components/my-component'),
+                  },
+                },
+                properties: {
+                  content: { type: 'mixed' },
+                  'content.id': { type: 'number' },
+                  'content.name': { type: 'string' },
+                },
+              },
+            },
             {
               resource: adminModel,
               options: { properties: { breed: { type: 'mixed' } } },

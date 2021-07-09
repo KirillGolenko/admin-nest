@@ -25,6 +25,7 @@
     "migration:run": "npm run typeorm migration:run"
   },
   "dependencies": {
+    "@adminjs/design-system": "^2.0.1",
     "@adminjs/express": "^4.0.0",
     "@adminjs/mongoose": "^2.0.0",
     "@adminjs/nestjs": "^2.0.0",
@@ -45,6 +46,7 @@
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^6.5.4",
+    "styled-components": "^5.3.0",
     "typeorm": "^0.2.25"
   },
   "devDependencies": {
