@@ -1,19 +1,17 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule, getModelToken } from '@nestjs/mongoose';
-import AdminJS from 'adminjs';
 import { Database, Resource } from '@adminjs/mongoose';
-import { Model } from 'mongoose';
-
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { AdminUser } from './mongoose-schemas/schemas/adminUser.schema';
-import { MongooseSchemasModule } from './mongoose-schemas/mongoose-schemas.module';
 import { AdminModule } from '@adminjs/nestjs';
+import { Model } from 'mongoose';
+import AdminJS from 'adminjs';
+import { MongooseSchemasModule } from './mongoose-schemas/mongoose-schemas.module';
+import { ImporterConfig } from './mongoose-schemas/schemas/importerConfig.schema';
+import { AdminUser } from './mongoose-schemas/schemas/adminUser.schema';
+import { Mapper } from './mongoose-schemas/schemas/mapper.schema';
 import { User } from './mongoose-schemas/schemas/user.schema';
 import { Log } from './mongoose-schemas/schemas/log.schema';
-import { Mapper } from './mongoose-schemas/schemas/mapper.schema';
-import { ImporterConfig } from './mongoose-schemas/schemas/importerConfig.schema';
-
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 require('dotenv').config();
 
 AdminJS.registerAdapter({ Database, Resource });
