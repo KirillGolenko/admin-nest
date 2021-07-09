@@ -6,10 +6,6 @@ import { Box, Button, Input } from '@adminjs/design-system';
 import { H3 } from '@adminjs/design-system';
 import { ApiClient } from 'adminjs';
 
-interface IState {
-  email: string;
-}
-
 const Action = props => {
   const { record, resource } = props;
   const api = new ApiClient();
