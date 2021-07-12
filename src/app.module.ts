@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { Module } from '@nestjs/common';
 import { MongooseModule, getModelToken } from '@nestjs/mongoose';
 import { Database, Resource } from '@adminjs/mongoose';
@@ -44,7 +45,7 @@ AdminJS.registerAdapter({ Database, Resource });
           rootPath: '/admin',
           dashboard: {
             handler: async () => {
-              return { some: 'output' };
+              return { some: 'This is custom dashboard' };
             },
             component: AdminJS.bundle('./components/my-dashboard-component'),
           },
@@ -102,10 +103,24 @@ AdminJS.registerAdapter({ Database, Resource });
             companyName: 'ChurnZero',
             theme: {
               colors: {
+                primary100: '#666',
                 hoverBg: '#7a7a7a',
               },
             },
           },
+        },
+        auth: {
+          authenticate: async (email, password) => {
+            const ADMIN = {
+              email: 'test@example.com',
+              password: 'password',
+            };
+            return ADMIN.email === email && ADMIN.password === password
+              ? ADMIN
+              : null;
+          },
+          cookieName: 'test',
+          cookiePassword: 'testPass',
         },
       }),
     }),

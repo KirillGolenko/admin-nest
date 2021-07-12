@@ -3,21 +3,21 @@ import { ApiClient } from 'adminjs';
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 
-const api = new ApiClient();
-
 const Dashboard = () => {
-  const [data, setData] = useState({});
+  const [data, setData] = useState({
+    some: '',
+  });
+  const api = new ApiClient();
 
   useEffect(() => {
     api.getDashboard().then(response => {
-      setData(response.data);
+      setData({ ...data, some: response.data.some });
     });
-    console.log(data);
   }, []);
 
   return (
     <Box variant="grey">
-      <Box variant="white">some: </Box>
+      <Box variant="white">some: {data.some}</Box>
     </Box>
   );
 };
